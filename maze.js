@@ -1,6 +1,4 @@
 function init(){
-	// var data = {width: 0, height:0, tilesize: 0};
-
 	var newWidth = document.getElementById("Width").value;
 	var newHeight = document.getElementById("Height").value;
 	var newTileSize = document.getElementById("TileSize").value;
@@ -20,15 +18,18 @@ function init(){
 	    return frag;
 	}
 
+
 	var grid = document.getElementById("grid");
+
+	while (grid.firstChild) {
+	    grid.removeChild(grid.firstChild);
+	}
+
 	grid.style.width = width * tileSize;
 	grid.style.height = height * tileSize;
 
 	for (var i = 0; i < width*height; i++) {
-
 		var fragment = create('<div class="node" id=null style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px; border-right: 1px solid; border-bottom: 1px solid; border-right-color: black; border-bottom-color: black;"></div>');
-		// You can use native DOM methods to insert the fragment:
-		// document.body.insertBefore(fragment, document.body.childNodes[0]);
 		grid.insertBefore(fragment,grid.childNodes[0]);
 	};
 
@@ -45,6 +46,7 @@ function setNodeIDs(width, height){
 		nodes[i].id = i;
 	};		
 }
+
 // http://bost.ocks.org/mike/shuffle/
 function shuffle(array) {
   var m = array.length, t, i;
@@ -71,12 +73,10 @@ function updateMaze(width, height, graph, walls){
 			var index = graph[i][j];
 
 			if(walls[index].down === false){
-				// console.log(index);
 				nodes[index].style.borderBottomColor = "white";
 			}
 			if(walls[index].right === false)
 			{
-				// console.log(index);
 				nodes[index].style.borderRightColor = "white";
 			}
 
@@ -107,10 +107,6 @@ function generateMaze(width, height, kruskal, tileSize){
 	var height = height;
 	var setSize = 0;
 	var graph = [];	
- // 40
- // 30
-// var associativeArray = {};
-// associativeArray["one"] = "First";
 
 	var walls = {};
 
@@ -128,7 +124,7 @@ function generateMaze(width, height, kruskal, tileSize){
 		for(var j = 0; j < height; j++){
 			graph[i][j] = location;
 
-			nodes[location].style.left = i * tileSize;
+			nodes[location].style.left = (i * tileSize);
 			nodes[location].style.top = j * tileSize;
 
 			walls[location] = {down: true, right: true};
@@ -174,4 +170,8 @@ function generateMaze(width, height, kruskal, tileSize){
 		}
 	}
     updateMaze(width, height, graph, walls);
+}
+
+function solveMaze(walls, graph){
+
 }
