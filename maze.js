@@ -1,3 +1,43 @@
+function init(){
+	// var data = {width: 0, height:0, tilesize: 0};
+
+	var newWidth = document.getElementById("Width").value;
+	var newHeight = document.getElementById("Height").value;
+	var newTileSize = document.getElementById("TileSize").value;
+	var tileSizeString = newTileSize.toString();
+	var tileSize = newTileSize
+    var width = newWidth;
+    var height = newHeight;
+
+// http://stackoverflow.com/questions/814564/inserting-html-elements-with-javascript
+	function create(htmlStr) {
+	    var frag = document.createDocumentFragment(),
+	        temp = document.createElement('div');
+	    temp.innerHTML = htmlStr;
+	    while (temp.firstChild) {
+	        frag.appendChild(temp.firstChild);
+	    }
+	    return frag;
+	}
+
+	var grid = document.getElementById("grid");
+	grid.style.width = width * tileSize;
+	grid.style.height = height * tileSize;
+
+	for (var i = 0; i < width*height; i++) {
+
+		var fragment = create('<div class="node" id=null style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px; border-right: 1px solid; border-bottom: 1px solid; border-right-color: black; border-bottom-color: black;"></div>');
+		// You can use native DOM methods to insert the fragment:
+		// document.body.insertBefore(fragment, document.body.childNodes[0]);
+		grid.insertBefore(fragment,grid.childNodes[0]);
+	};
+
+
+    setNodeIDs(width,height);
+    var set = new Disjointset();
+    generateMaze(width, height, set, tileSize);
+}
+
 function setNodeIDs(width, height){
 	var nodes = document.getElementsByClassName("node");
 	nodes[0].style.color = "green";
@@ -62,7 +102,7 @@ function drawExtraWalls(graph,height,width){
 	nodes[index].style.borderBottomColor = "white";
 }
 
-function generateMaze(width, height, kruskal){
+function generateMaze(width, height, kruskal, tileSize){
 	var width = width;
 	var height = height;
 	var setSize = 0;
@@ -88,8 +128,8 @@ function generateMaze(width, height, kruskal){
 		for(var j = 0; j < height; j++){
 			graph[i][j] = location;
 
-			nodes[location].style.left = i * 32;
-			nodes[location].style.top = j * 32;
+			nodes[location].style.left = i * tileSize;
+			nodes[location].style.top = j * tileSize;
 
 			walls[location] = {down: true, right: true};
 

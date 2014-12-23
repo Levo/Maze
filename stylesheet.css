@@ -11,3 +11,24 @@ body{
 .node{
 	position: absolute;
 }
+#menu{
+    position: relative;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border-radius: 4px;
+    cursor: default;
+    width: 150px;
+    height: 150px;
+}
+.specs{
+	display: block;
+	width: 50px;
+	margin-left: auto;
+}
+#grid{
+	position: absolute;
+}
+#GenerateMaze{
+	margin-top: 20px;
+}
