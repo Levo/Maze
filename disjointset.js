@@ -14,7 +14,7 @@ var Disjointset = Class.extend({
     	if(this.set[element] < 0){
     		return element;
     	}else{
-    		return this.set[element] = find(this.set[element]);
+    		return this.set[element] = this.find(this.set[element]);
     	}
     },
     setUnion: function(a, b){

@@ -1,8 +1,13 @@
-#box{
-    width: 1280px;
-    height: 960px;
-	position: absolute;
-	top: 32px;
+/*#box{
+    width: 64px; 
+    height: 64px;
+    border: 1px solid;
+}*/
+body{
+	position: relative;
 	left: 32px;
- 	border: 1px solid;
+	top: 32px;
+}
+.node{
+	position: absolute;
 }
