@@ -35,3 +35,17 @@ body{
 #GenerateMaze{
 	margin-top: 20px;
 }
+
+#borderRight{
+  border-right: 1px solid;
+  position: absolute;
+  top: 0%;
+  left: 31px;
+  bottom: 0;
+}
+#borderDown{
+  border-bottom: 1px solid;
+  left: 0px;
+  width: 32px;
+  position: absolute;
+}

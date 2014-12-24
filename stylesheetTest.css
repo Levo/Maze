@@ -1,0 +1,23 @@
+.node{
+  height: 32px;
+  width: 32px;
+  position: relative;
+}
+#borderRight{
+  border-right: 1px solid black;
+  position: absolute;
+  top: 0%;
+  margin-left: 100%;
+  bottom: 0;
+}
+#borderDown{
+  border-bottom: 1px solid black;
+  top: 100%;
+  width: 33px;
+  position: relative;
+}
+#grid{
+	position: absolute;
+	left: 250px;
+	top: 0;
+}

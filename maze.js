@@ -7,18 +7,6 @@ function init(){
     var width = newWidth;
     var height = newHeight;
 
-// http://stackoverflow.com/questions/814564/inserting-html-elements-with-javascript
-	function create(htmlStr) {
-	    var frag = document.createDocumentFragment(),
-	        temp = document.createElement('div');
-	    temp.innerHTML = htmlStr;
-	    while (temp.firstChild) {
-	        frag.appendChild(temp.firstChild);
-	    }
-	    return frag;
-	}
-
-
 	var grid = document.getElementById("grid");
 
 	while (grid.firstChild) {
@@ -29,21 +17,41 @@ function init(){
 	grid.style.height = height * tileSize;
 
 	for (var i = 0; i < width*height; i++) {
-		var fragment = create('<div class="node" id=null style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px; border-right: 1px solid; border-bottom: 1px solid; border-right-color: black; border-bottom-color: black;"></div>');
+		// var fragment = create('<div class="node" id=null style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px; border-right: 1px solid; border-bottom: 1px solid; border-right-color: black; border-bottom-color: black;"></div>');
+		var fragment = create('<div class="node" id=null style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px;"></div>');
+
 		grid.insertBefore(fragment,grid.childNodes[0]);
 	};
 
 
-    setNodeIDs(width,height);
+    setNodeIDs(width,height, tileSize);
     var set = new Disjointset();
     generateMaze(width, height, set, tileSize);
 }
+// http://stackoverflow.com/questions/814564/inserting-html-elements-with-javascript
+function create(htmlStr) {
+    var frag = document.createDocumentFragment(),
+        temp = document.createElement('div');
+    temp.innerHTML = htmlStr;
+    while (temp.firstChild) {
+        frag.appendChild(temp.firstChild);
+    }
+    return frag;
+}
 
-function setNodeIDs(width, height){
+function setNodeIDs(width, height, tileSize){
 	var nodes = document.getElementsByClassName("node");
-	nodes[0].style.color = "green";
 	for (var i = 0; i < nodes.length; i++) {
 		nodes[i].id = i;
+		var fragmentRight = create('<div id="borderRight"></div>');
+		var fragmentDown = create('<div id="borderDown"></div>');
+		nodes[i].insertBefore(fragmentRight,nodes[i].childNodes[0]);
+		nodes[i].insertBefore(fragmentDown,nodes[i].childNodes[0]);
+		// Down wall
+		nodes[i].childNodes[0].style.top = ''+(tileSize-1)+'px';
+		nodes[i].childNodes[0].style.width = ''+(tileSize)+'px';
+		// Right Wall
+		nodes[i].childNodes[1].style.left = ''+(tileSize-1)+'px';
 	};		
 }
 
@@ -73,11 +81,11 @@ function updateMaze(width, height, graph, walls){
 			var index = graph[i][j];
 
 			if(walls[index].down === false){
-				nodes[index].style.borderBottomColor = "white";
+				nodes[index].childNodes[0].style.borderBottomColor = "white";
 			}
 			if(walls[index].right === false)
 			{
-				nodes[index].style.borderRightColor = "white";
+				nodes[index].childNodes[1].style.borderRightColor = "white";
 			}
 
 		}
@@ -92,14 +100,15 @@ function drawExtraWalls(graph,height,width){
 		nodes[index].style.borderLeft = "1px solid";
 		nodes[index].style.borderLeftColor = "black";
 	};
-	for (var i = 1; i < width; i++) {
+	for (var i = 0; i < width; i++) {
 		var index = graph[i][0];
 		nodes[index].style.borderTop = "1px solid";
 		nodes[index].style.borderTopColor = "black";
 	};
 
 	var index = graph[width-1][height-1];
-	nodes[index].style.borderBottomColor = "white";
+	nodes[index].childNodes[0].style.borderBottomColor = "white";
+	nodes[0].style.borderTopColor = "white";
 }
 
 function generateMaze(width, height, kruskal, tileSize){
@@ -125,7 +134,7 @@ function generateMaze(width, height, kruskal, tileSize){
 			graph[i][j] = location;
 
 			nodes[location].style.left = (i * tileSize);
-			nodes[location].style.top = j * tileSize;
+			nodes[location].style.top = (j * tileSize);
 
 			walls[location] = {down: true, right: true};
 
