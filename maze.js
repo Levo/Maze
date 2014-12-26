@@ -28,6 +28,14 @@ function init(){
     var set = new Disjointset();
     generateMaze(width, height, set, tileSize);
 }
+function keyBoardInit(event){
+	document.body.addEventListener("keypress", function(event){
+		if(event.keyCode === 13 ){
+			init();
+		}
+	},false);
+}
+
 // http://stackoverflow.com/questions/814564/inserting-html-elements-with-javascript
 function create(htmlStr) {
     var frag = document.createDocumentFragment(),
@@ -109,7 +117,7 @@ function drawExtraWalls(graph,height,width,tileSize){
 	};
 
 	var index = graph[width-1][height-1];
-	nodes[index].childNodes[0].style.borderBottomColor = "white";
+	nodes[index].childNodes[0].style.borderBottom = "0px";
 	nodes[0].style.borderTopColor = "white";
 	nodes[0].style.borderTop = "0px";
 	nodes[0].childNodes[0].style.top = tileSize+"px";

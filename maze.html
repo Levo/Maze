@@ -10,12 +10,16 @@
 <body style="margin:0; padding:0;">
 
 	<div id="menu">
-		Width<input type="text" id="Width" class="specs" value="40">
-		Height<input type="text" id="Height" class="specs" value="40">
-		Tile Size<input type="text" id="TileSize" class="specs" value="16">
-		<button id="GenerateMaze" onclick="init()">Generate Maze</button>
+		Width<input class="inputField" type="text" id="Width"  value="40">
+		Height<input class="inputField" type="text" id="Height" value="40">
+		Tile Size<input class="inputField" type="text" id="TileSize" value="16">
+		<button class="btn" onclick="init()">Generate Maze</button>
 	</div>
 
     <div id="grid"> </div>
+
+	<script>
+		keyBoardInit(event);
+	</script>
 
 </body 
