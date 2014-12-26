@@ -74,7 +74,7 @@ function shuffle(array) {
   return array;
 }
 
-function updateMaze(width, height, graph, walls){
+function updateMaze(width, height, graph, walls, tileSize){
 	var nodes = document.getElementsByClassName("node");
 	for(var i = 0; i < width; i++){
 		for(var j = 0; j < height; j++){
@@ -82,18 +82,20 @@ function updateMaze(width, height, graph, walls){
 
 			if(walls[index].down === false){
 				nodes[index].childNodes[0].style.borderBottomColor = "white";
+				nodes[index].childNodes[0].style.borderBottom = "0px";
 			}
 			if(walls[index].right === false)
 			{
 				nodes[index].childNodes[1].style.borderRightColor = "white";
+				nodes[index].childNodes[1].style.borderRight = "0px";
 			}
 
 		}
 	}
-	drawExtraWalls(graph,height,width);
+	drawExtraWalls(graph,height,width,tileSize);
 }
 
-function drawExtraWalls(graph,height,width){
+function drawExtraWalls(graph,height,width,tileSize){
 	var nodes = document.getElementsByClassName("node");
 	for (var i = 0; i < height; i++) {
 		var index = graph[0][i];
@@ -109,6 +111,8 @@ function drawExtraWalls(graph,height,width){
 	var index = graph[width-1][height-1];
 	nodes[index].childNodes[0].style.borderBottomColor = "white";
 	nodes[0].style.borderTopColor = "white";
+	nodes[0].style.borderTop = "0px";
+	nodes[0].childNodes[0].style.top = tileSize+"px";
 }
 
 function generateMaze(width, height, kruskal, tileSize){
@@ -178,7 +182,7 @@ function generateMaze(width, height, kruskal, tileSize){
 			}
 		}
 	}
-    updateMaze(width, height, graph, walls);
+    updateMaze(width, height, graph, walls, tileSize);
 }
 
 function solveMaze(walls, graph){
