@@ -16,15 +16,20 @@ function init(){
 	grid.style.width = width * tileSize;
 	grid.style.height = height * tileSize;
 
-	for (var i = 0; i < width*height; i++) {
-		// var fragment = create('<div class="node" id=null style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px; border-right: 1px solid; border-bottom: 1px solid; border-right-color: black; border-bottom-color: black;"></div>');
-		var fragment = create('<div class="node" id=null style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px;"></div>');
-
+	//Combined what was in setNodeIDs to make this string literal.
+	var innerWalls="<div id=\"borderDown\" style=\"top:"+(tileSize-1)+"px; width:"+(tileSize)+"px;\"><\/div> <div id=\"borderRight\" style=\"left:"+(tileSize-1)+"px;\"><\/div>";
+	
+	//Temp var for the loop below.
+	var totals = width*height-1;
+	for (var i = totals; i >= 0; i--) {//reversed direction of operation because the funciton call on this peice use to go backwards.
+		//Idealy, the next optimization would be figuring out how to remove this create call in this loop.
+		var fragment = create('<div class="node" id='+i+' style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px;">'+innerWalls+'</div>');
+		
 		grid.insertBefore(fragment,grid.childNodes[0]);
 	};
 
-
-    setNodeIDs(width,height, tileSize);
+	//This funciton no longer needs to be called.SSS
+    //setNodeIDs(width,height, tileSize);
     var set = new Disjointset();
     generateMaze(width, height, set, tileSize);
 }
@@ -47,21 +52,22 @@ function create(htmlStr) {
     return frag;
 }
 
-function setNodeIDs(width, height, tileSize){
-	var nodes = document.getElementsByClassName("node");
-	for (var i = 0; i < nodes.length; i++) {
-		nodes[i].id = i;
-		var fragmentRight = create('<div id="borderRight"></div>');
-		var fragmentDown = create('<div id="borderDown"></div>');
-		nodes[i].insertBefore(fragmentRight,nodes[i].childNodes[0]);
-		nodes[i].insertBefore(fragmentDown,nodes[i].childNodes[0]);
-		// Down wall
-		nodes[i].childNodes[0].style.top = ''+(tileSize-1)+'px';
-		nodes[i].childNodes[0].style.width = ''+(tileSize)+'px';
-		// Right Wall
-		nodes[i].childNodes[1].style.left = ''+(tileSize-1)+'px';
-	};		
-}
+//Flat out dont need this funciton will remove after reivew.
+// function setNodeIDs(width, height, tileSize){
+// 	var nodes = document.getElementsByClassName("node");//this line is good.
+// 	for (var i = 0; i < nodes.length; i++) {//nodes.lenght computed every iteration.
+// 		nodes[i].id = i;
+// 		var fragmentRight = create('<div id="borderRight"></div>');//Variable created and computed every iteration.
+// 		var fragmentDown = create('<div id="borderDown"></div>');//Variable created and computed every iteration.
+// 		nodes[i].insertBefore(fragmentRight,nodes[i].childNodes[0]);//funciton call on an array access.
+// 		nodes[i].insertBefore(fragmentDown,nodes[i].childNodes[0]);//funciton call on an array access.
+// 		// Down wall
+// 		nodes[i].childNodes[0].style.top = ''+(tileSize-1)+'px';//wasteful
+// 		nodes[i].childNodes[0].style.width = ''+(tileSize)+'px';//wasteful
+// 		// Right Wall
+// 		nodes[i].childNodes[1].style.left = ''+(tileSize-1)+'px';//wasteful
+// 	};		
+// }
 
 // http://bost.ocks.org/mike/shuffle/
 function shuffle(array) {
@@ -94,8 +100,9 @@ function updateMaze(width, height, graph, walls, tileSize){
 			}
 			if(walls[index].right === false)
 			{
-				nodes[index].childNodes[1].style.borderRightColor = "white";
-				nodes[index].childNodes[1].style.borderRight = "0px";
+				//the optimization I made causes an error,there is an extra object at childnode[1], not sure why.
+				nodes[index].childNodes[2].style.borderRightColor = "white";
+				nodes[index].childNodes[2].style.borderRight = "0px";
 			}
 
 		}
