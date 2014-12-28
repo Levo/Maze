@@ -16,15 +16,14 @@ function init(){
 	grid.style.width = width * tileSize;
 	grid.style.height = height * tileSize;
 
-	for (var i = 0; i < width*height; i++) {
-		// var fragment = create('<div class="node" id=null style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px; border-right: 1px solid; border-bottom: 1px solid; border-right-color: black; border-bottom-color: black;"></div>');
-		var fragment = create('<div class="node" id=null style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px;"></div>');
+	var innerWalls="<div id=\"borderDown\" style=\"top:"+(tileSize-1)+"px; width:"+(tileSize)+"px;\"><\/div>";
+	var rightWalls= "<div id=\"borderRight\" style=\"left:"+(tileSize-1)+"px;\"><\/div>";
 
+	for (var i = 0; i < width*height; i++) {
+		var fragment = create('<div class="node" id='+i+' style="width:'+ tileSizeString + 'px; height: '+ tileSizeString + 'px;">'+innerWalls+rightWalls+'</div>');		
 		grid.insertBefore(fragment,grid.childNodes[0]);
 	};
 
-
-    setNodeIDs(width,height, tileSize);
     var set = new Disjointset();
     generateMaze(width, height, set, tileSize);
 }
@@ -45,22 +44,6 @@ function create(htmlStr) {
         frag.appendChild(temp.firstChild);
     }
     return frag;
-}
-
-function setNodeIDs(width, height, tileSize){
-	var nodes = document.getElementsByClassName("node");
-	for (var i = 0; i < nodes.length; i++) {
-		nodes[i].id = i;
-		var fragmentRight = create('<div id="borderRight"></div>');
-		var fragmentDown = create('<div id="borderDown"></div>');
-		nodes[i].insertBefore(fragmentRight,nodes[i].childNodes[0]);
-		nodes[i].insertBefore(fragmentDown,nodes[i].childNodes[0]);
-		// Down wall
-		nodes[i].childNodes[0].style.top = ''+(tileSize-1)+'px';
-		nodes[i].childNodes[0].style.width = ''+(tileSize)+'px';
-		// Right Wall
-		nodes[i].childNodes[1].style.left = ''+(tileSize-1)+'px';
-	};		
 }
 
 // http://bost.ocks.org/mike/shuffle/
