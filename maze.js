@@ -112,6 +112,7 @@ function generateMaze(width, height, kruskal, tileSize){
 	var setSize = 0;
 	var graph = [];	
 
+	var visitedMap = {};
 	var walls = {};
 
 	var rightWalls = [];
@@ -132,6 +133,8 @@ function generateMaze(width, height, kruskal, tileSize){
 			nodes[location].style.top = (j * tileSize);
 
 			walls[location] = {down: true, right: true};
+			visitedMap[location] = false;
+
 
 			rightWalls.push({x:i, y:j});
 			downWalls.push({x:i, y:j});
@@ -174,8 +177,137 @@ function generateMaze(width, height, kruskal, tileSize){
 		}
 	}
     updateMaze(width, height, graph, walls, tileSize);
+    solveMaze(walls, graph, height, width, visitedMap, tileSize);
 }
 
-function solveMaze(walls, graph){
+function solveMaze(walls, graph, height, width, visitedMap, tileSize){
+	var Q = [];
+	var sX = 0;
+	var sY = 0;
+	var sXY = {x: sX, y: sY};
+	var longestDistance = 0;
+	var longestIndex = 0;
+	var longestX = 0;
+	var longestY = 0;
+	var distanceMap = {};
+	var parentMap = {};
+	var directionMap = {}; 
+	var startingNode = graph[sX][sY];
+	distanceMap[startingNode] = 0;
+	Q.push(sXY);
+	while(Q.length > 0){
+		var currentNode = Q.shift();
+		var indexCurrentNode = graph[currentNode.x][currentNode.y];
+		if(move(currentNode.x, currentNode.y, "east", width, height, graph, walls)){
+			var rightNode = graph[currentNode.x + 1][currentNode.y];
+			if(visitedMap[rightNode] === false){
+				var newNode = {x: currentNode.x + 1, y: currentNode.y};
+				Q.push(newNode);
+				distanceMap[rightNode] = distanceMap[indexCurrentNode] + 1;
+				parentMap[rightNode] = indexCurrentNode;
+				directionMap[rightNode] = "east";
+				visitedMap[rightNode] = true;
+			}
+		}
+		if(move(currentNode.x, currentNode.y, "south", width, height, graph, walls)){
+			var downNode = graph[currentNode.x][currentNode.y + 1];
+			if(visitedMap[downNode] === false){
+				var newNode = {x: currentNode.x, y: currentNode.y + 1};
+				Q.push(newNode);
+				distanceMap[downNode] = distanceMap[indexCurrentNode] + 1;
+				parentMap[downNode] = indexCurrentNode;
+				directionMap[downNode] = "south";
+				visitedMap[downNode] = true;
+			}
+		}
+		if(move(currentNode.x, currentNode.y, "west", width, height, graph, walls)){
+			var leftNode = graph[currentNode.x - 1][currentNode.y];
+			if(visitedMap[leftNode] === false){
+				var newNode = {x: currentNode.x - 1, y: currentNode.y};
+				Q.push(newNode);
+				distanceMap[leftNode] = distanceMap[indexCurrentNode] + 1;
+				parentMap[leftNode] = indexCurrentNode;
+				directionMap[leftNode] = "west";
+				visitedMap[leftNode] = true;
+			}
+		}
+		if(move(currentNode.x, currentNode.y, "north", width, height, graph, walls)){
+			var northNode = graph[currentNode.x][currentNode.y - 1];
+			if(visitedMap[northNode] === false){
+				var newNode = {x: currentNode.x, y: currentNode.y - 1};
+				Q.push(newNode);
+				distanceMap[northNode] = distanceMap[indexCurrentNode] + 1;
+				parentMap[northNode] = indexCurrentNode;
+				directionMap[northNode] = "north";
+				visitedMap[northNode] = true;
+			}
+		}
+	}
+
+	longestIndex = graph[width-1][height-1];
+	var nodes = document.getElementsByClassName("node");
+
+	while(longestIndex != startingNode){
+		nodes[longestIndex].style.backgroundColor = "red";
+		longestIndex = parentMap[longestIndex];
+	}
+
+	nodes[0].style.backgroundColor = "red";
 
 }
+
+function move(x, y, direction, width, height, graph, walls){
+
+	if(direction === "east"){
+		var nX = x + 1;
+		if(nX < width){
+			var currentNode = graph[x][y];
+			if(!walls[currentNode].right){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}else if(direction === "south"){
+		var nY = y + 1;
+		if(nY < height){
+			var currentNode = graph[x][y];
+			if(!walls[currentNode].down){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}else if(direction === "west"){
+		var nX = x - 1;
+		if(nX >= 0){
+			var currentNode = graph[nX][y];
+			if(!walls[currentNode].right){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}else if(direction === "north"){
+		var nY = y - 1;
+		if(nY >= 0){
+			var currentNode = graph[x][nY];
+			if(!walls[currentNode].down){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+
+}
+
+
