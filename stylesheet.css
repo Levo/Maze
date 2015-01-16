@@ -1,33 +1,34 @@
-/*#box{
-    width: 64px; 
-    height: 64px;
-    border: 1px solid;
-}*/
 @import url(http://fonts.googleapis.com/css?family=Indie+Flower:400);
+@import url(http://fonts.googleapis.com/css?family=Alegreya+Sans+SC:400);
 
 body{
 	position: relative;
 	left: 32px;
 	top: 32px;
-	font-family: 'Indie Flower';
+	font-family: 'Alegreya Sans SC';
 	font-weight: 400;
 	letter-spacing: 0.1em;
+	font-size: 1.2em;
 	background-color: #ecf0f1;
 }
+
 .node{
 	position: absolute;
 }
+
 #menu{
     cursor: default;
     width: 150px;
     height: 350px;
-    color: #16a085;
+    color: #7f8c8d;
 }
+
 #grid{
 	position: absolute;
 	left: 250px;
 	top: 0;
 }
+
 #borderRight{
   border-right: 1px solid;
   position: absolute;
@@ -35,26 +36,31 @@ body{
   left: 31px;
   bottom: 0;
 }
+
 #borderDown{
   border-bottom: 1px solid;
   left: 0px;
   width: 32px;
   position: absolute;
 }
+
 .inputField{
 	padding: 10px;
 	border: none;
-	border-bottom: solid 5px #95a5a6;
+	border-bottom: solid 5px #bdc3c7;
 	transition: border 0.3s;
 	outline: none;
 	position: relative;
 	display: block;
-	width: 50px;
+	width: 45px;
 	left: 50px;
+	font-family: 'Alegreya Sans SC';
 }
+
 .inputField:hover{
   border-bottom: solid 5px #7f8c8d;
 }
+
 .btn{	
 	margin: 10px; 
 	padding: 15px;
@@ -67,28 +73,69 @@ body{
   	-webkit-transition: .4s;
   	-moz-transition: .4s;
   	-o-transition: .4s;
-
+  	width: 125px;
+  	height: 75px;
   	outline: none;
-/*Default in Case there's no specifications | Medium */
-	font-family: 'Indie Flower';
+	font-family: 'Alegreya Sans SC';
 	font-weight: 400;
 	letter-spacing: 0.1em;
 	font-variant: small-caps;
 	border-width:1.2em;
-/*Default in Case there's no specifications | Grey */
-	color:#16a085;
-	border:#16a085 solid;
-
-/*Default in Case there's no specifications | Normal */
-	font-size: 1.2em;
+	color:#7f8c8d;
+	border:#7f8c8d solid;
+	font-size: 1em;
 }
 
 .btn:hover{
-/*Default in Case there's no specfications*/
 	color:#ecf0f1;
-	background-color:#16a085;
+	background-color:#7f8c8d;
+
 }
 
 .btn:active{
-	color: inherit;
+ 	transition: all 0.25s ease-in-out;
+ 	-ms-transform: scale(0.80,0.80); 
+	-webkit-transform: scale(0.80,0.80);
+	transform: scale(0.80,0.80);
 }
+
+#SolvePath{
+	position: absolute;
+	top: 288px;
+}
+#SolvePathText{
+	position: absolute;
+	left: 25px;
+}
+
+/*
+	BG:Turquoise - #1abc9c
+	B:Green Sea - #16a085
+	
+	Emerald - #2ecc71
+	Nephritis - #27ae60
+
+	Peter River - #3498db
+	Belize Hole - #2980b9
+
+	Amethyst - #9b59b6
+	Wisteria - #8e44ad
+
+	Wet Asphalt - #34495e
+	Midnight Blue - #2c3e50
+
+	Sun Flower - #f1c40f
+	Orange - #f39c12
+	
+	Carrot - #e67e22
+	Pumpkin - #d35400
+
+	Alizarin - #e74c3c
+	Pomegranate - #c0392b
+
+	Clouds - #ecf0f1
+	Silver - #bdc3c7
+
+	Concrete - #95a5a6
+	Asbestos - #7f8c8d
+

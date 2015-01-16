@@ -26,6 +26,11 @@ function init(){
 
     var set = new Disjointset();
     generateMaze(width, height, set, tileSize);
+
+    var checkBox = document.getElementById("SolvePath");
+    if(checkBox.checked){
+    	drawPath();
+    }
 }
 function keyBoardInit(event){
 	document.body.addEventListener("keypress", function(event){
@@ -191,7 +196,8 @@ function solveMaze(walls, graph, height, width, visitedMap, tileSize){
 	var longestY = 0;
 	var distanceMap = {};
 	var parentMap = {};
-	var directionMap = {}; 
+	var directionMap = {};
+	var solvedPath = {}; 
 	var startingNode = graph[sX][sY];
 	distanceMap[startingNode] = 0;
 	Q.push(sXY);
@@ -248,11 +254,12 @@ function solveMaze(walls, graph, height, width, visitedMap, tileSize){
 	var nodes = document.getElementsByClassName("node");
 
 	while(longestIndex != startingNode){
-		nodes[longestIndex].style.backgroundColor = "red";
+		solvedPath[longestIndex] = nodes[longestIndex].id;
 		longestIndex = parentMap[longestIndex];
 	}
 
-	nodes[0].style.backgroundColor = "red";
+	solvedPath[0] = nodes[0].id;
+	storeData(solvedPath);
 
 }
 
@@ -311,3 +318,46 @@ function move(x, y, direction, width, height, graph, walls){
 }
 
 
+
+function storeData(solvedMaze)
+{
+	localStorage.setItem('solvedMaze', JSON.stringify(solvedMaze));
+}
+
+function removeStoredData(){
+	localStorage.removeItem('solvedMaze');
+}
+
+function retrieveData(){
+	var retrievedObject = localStorage.getItem('solvedMaze');
+	return JSON.parse(retrievedObject);
+}
+
+function updateData(solvedMaze){
+	removeStoredData();
+	storeData(solvedMaze);
+}
+
+function drawPath(){
+	var solutionPath = retrieveData();
+	for(node in solutionPath){
+		var currentNodeHTML = document.getElementById(solutionPath[node]);
+		currentNodeHTML.style.backgroundColor = "red";
+	}
+}
+
+function unDrawPath(){
+	var solutionPath = retrieveData();
+	for(node in solutionPath){
+		var currentNodeHTML = document.getElementById(solutionPath[node]);
+		currentNodeHTML.style.backgroundColor = "rgba(0,0,0,0.0)";
+	}
+}
+
+function drawSolution(checkBox){
+	if(checkBox.checked){
+		drawPath();
+	}else if(!checkBox.checked){
+		unDrawPath();
+	}
+}
