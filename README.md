@@ -1,6 +1,6 @@
 # Maze
 
-Randomly generated maze that does not contain a cycle. 
+Randomly generated maze that does not contain a cycle. (Disjoint sets are cool!)
 
 The width, height, and tile size of the maze can be edited to your liking. 
 
